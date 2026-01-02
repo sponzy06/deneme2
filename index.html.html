@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Özür Dilerim</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    height: 100vh;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #ffe6f0;
+  }
+
+  /* Kalpli ve Hello Kitty arka plan animasyonu için */
+  .floating {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    pointer-events: none;
+    animation: floatUp linear infinite;
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+  }
+
+  .container {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    background: rgba(255,255,255,0.85);
+    padding: 30px 40px;
+    border-radius: 20px;
+  }
+
+  h1 {
+    color: #ff2f6e;
+    margin-bottom: 25px;
+  }
+
+  #message {
+    font-size: 28px;
+    color: #ff2f6e;
+    margin-top: 20px;
+    display: none;
+  }
+
+  button {
+    padding: 15px 25px;
+    font-size: 18px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.3s;
+    margin: 10px;
+  }
+
+  #yesBtn {
+    background: #ff4d88;
+    color: white;
+  }
+
+  #noBtn {
+    background: #ccc;
+    position: absolute;
+  }
+</style>
+</head>
+<body>
+
+<div class="container" id="box">
+  <h1>Özür dilerim hayatım<br>beni affet</h1>
+  <button id="yesBtn">Affettim canım</button>
+  <button id="noBtn">Affetmem</button>
+  <div id="message">Yuppi! Seni çok seviyorum hayatım 💖</div>
+</div>
+
+<script>
+  const noBtn = document.getElementById("noBtn");
+  const yesBtn = document.getElementById("yesBtn");
+  const box = document.getElementById("box");
+  const message = document.getElementById("message");
+
+  let scale = 1;
+
+  // Affetmem butonu
+  noBtn.addEventListener("click", () => {
+    const x = Math.random() * (window.innerWidth - 150);
+    const y = Math.random() * (window.innerHeight - 80);
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+
+    scale *= 1.25;
+    yesBtn.style.transform = `scale(${scale})`;
+
+    if (scale > 6) {
+      box.style.position = "fixed";
+      box.style.inset = "0";
+      box.style.borderRadius = "0";
+      box.style.display = "flex";
+      box.style.flexDirection = "column";
+      box.style.justifyContent = "center";
+      box.style.alignItems = "center";
+      yesBtn.style.transform = "scale(10)";
+      noBtn.style.display = "none";
+    }
+  });
+
+  // Affettim butonu
+  yesBtn.addEventListener("click", () => {
+    message.style.display = "block"; // mesajı göster
+
+    // Her yerden kalpler ve Hello Kitty
+    for (let i = 0; i < 50; i++) {
+      createFloating("💖"); // kalp
+      createFloating("🎀"); // Hello Kitty yerine sevimli bir emoji
+    }
+  });
+
+  function createFloating(char) {
+    const f = document.createElement("div");
+    f.className = "floating";
+    f.textContent = char;
+    f.style.left = Math.random() * 100 + "vw";
+    f.style.fontSize = (20 + Math.random()*30) + "px";
+    f.style.animationDuration = (3 + Math.random()*5) + "s";
+    document.body.appendChild(f);
+
+    // Animasyon sonunda sil
+    setTimeout(() => { f.remove(); }, 6000);
+  }
+
+  // Arka plandaki sürekli kalpler
+  for (let i = 0; i < 40; i++) {
+    createFloating("💖");
+  }
+</script>
+
+</body>
+</html>
